@@ -1,8 +1,8 @@
-import {ADD_TODO, DELETE_TODO, SET_VISIBLE_FILTER} from './action'
+import {ADD_TODO, DELETE_TODO, SET_VISIBLE_FILTER,TOGGLE_STATUS} from './action'
 import {DONE,UNDO,ALL} from '../constants'
 import {createReducer} from './utils'
 import {combineReducers} from 'redux'
-import {fromJS} from 'immutable'
+import {fromJS,Map} from 'immutable'
 /**定义初始state**/
 const initialState =fromJS( 
     {
@@ -15,15 +15,18 @@ const initialState =fromJS(
 const rootHandlers = {
     todos:{
         addTodo :(state,action) =>{
-            
+            return state.push(Map(action.payload))
         },
         deleteTodo : (state,action) =>{
-
+            return state.delete(action.index)
+        },
+        toggleStatus :(state,action)=>{
+            return state.setIn([action.index,'isDone'],action.status)
         }
     },
     visibleFilter:{
         setVisibleFilter :(state,action) =>{
-
+            return state            
         }
     }
 }
@@ -32,7 +35,8 @@ const rootHandlers = {
 /**slice reducer**/
 const todosReducer = createReducer(initialState.get('todos'),{
     [ADD_TODO]:rootHandlers.todos.addTodo,
-    [DELETE_TODO]:rootHandlers.todos.deleteTodo
+    [DELETE_TODO]:rootHandlers.todos.deleteTodo,
+    [TOGGLE_STATUS]:rootHandlers.todos.toggleStatus
 })
 
 const visibleFilterReducer = createReducer(initialState.get('visibleFilter'),{

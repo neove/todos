@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
+import TodoItem from './todoItem'
 export default class TodoList extends Component{
     constructor(p){
         super(p)
     }
     render (){
-        let {todoList =[]} = this.props;
+        let {todos,acTodoItem} = this.props;
         return <div>
-        {todoList.map((item ,index) =>{
-            <TodoItem key={index}  item ={item}/>
+        {todos.map((item ,index) =>{
+             return <TodoItem key={index} index={index} item ={item} {...acTodoItem}/>
         })}
         </div>
     }

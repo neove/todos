@@ -1,9 +1,12 @@
-import {createStore} from 'redux'
+import {applyMiddleware,createStore} from 'redux'
 import reducer from './reducer'
-console.dir(reducer)
-export const store = createStore(reducer)
-console.log(store.getState(),'@@@@')
-// store.dispatch( {type:"ADD_TODO" , payload:"item"})
+import createLogger from 'redux-logger'
+import undoableReducer from './reducerEnhancer'
+
+export const store = createStore(
+    undoableReducer(reducer),
+    applyMiddleware(createLogger())
+)
 //监听
 store.subscribe(()=>{
     console.log(store.getState())
