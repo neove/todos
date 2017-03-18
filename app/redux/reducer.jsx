@@ -4,7 +4,7 @@ import {createReducer} from './utils'
 import {combineReducers} from 'redux'
 import {fromJS,Map} from 'immutable'
 /**定义初始state**/
-const initialState =fromJS( 
+export const initialState =fromJS( 
     {
         todos:[],
         visibleFilter:ALL
@@ -44,18 +44,10 @@ const visibleFilterReducer = createReducer(initialState.get('visibleFilter'),{
 })
 /**end slice reducer**/
 
-
-/**combine reducers : rootReducer**/
-export default combineReducers({
-    todos:todosReducer,
-    visibleFilter:visibleFilterReducer
-})
-// export default (state = initialState,action)=>{ //在这里指定初始state
-
-//     todos:todosReducer(state.todos,action)
-
-//     visibleFilter:visibleFilterReducer(state.visibleFilter,action)
-// }
+export default (state = initialState,action)=>{//在这里指定初始state
+    return state.set('todos',todosReducer(state.todos,action))
+            .set('setVisibleFilter',visibleFilterReducer(state.visibleFilter,action))
+}
 /**end combine reducers**/
 
 

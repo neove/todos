@@ -12,6 +12,7 @@ class Todos extends Component{
     } 
     render(){
         let {acHeader,acTodoList,acFooter,todos,undo,redo} = this.props;
+        console.log(32)
         return <div className='todos-wrapper'>
             <button onClick={undo}>undo</button>
             <button onClick={redo}>redo</button>            
@@ -25,8 +26,8 @@ class Todos extends Component{
 
 const ConnectTodos = connect(
     state =>({
-        todos:state.get('present').todos,
-        visibleFilter:state.visibleFilter
+        todos:state.getIn(['present','todos']),
+        visibleFilter:state.getIn(['present','visibleFilter']),
     }),
     dispath => mapActionCreators(actionCreators,dispath)
 )(Todos)
