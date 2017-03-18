@@ -6,7 +6,7 @@ export  default  (reducer) => {
   // 以一个空的 action 调用 reducer 来产生初始的 state
   const initialState =fromJS({
         past: [],
-        present: reducer(undefined, {}),
+        present:reducer(undefined,{}),//初始化当前的状态，然后放在past队列中
         future: []
     }
   )
@@ -14,6 +14,7 @@ export  default  (reducer) => {
   return function (state = initialState, action) {
     switch (action.type) {
       case 'UNDO':
+      if(state.get('past').size == 0) return state;
         return state
             .update('future', future => {
                 return future.unshift(state.get('present'));
@@ -23,6 +24,7 @@ export  default  (reducer) => {
                 return past.pop();
             });
       case 'REDO':
+      if(state.get('future').size == 0) return state;      
         return state
             .update('past', past => {
                 return past.push(state.get('present'));
@@ -34,10 +36,10 @@ export  default  (reducer) => {
       default:
         // 将其他 action 委托给原始的 reducer 处理
         let present = state.get('present');
-        const newPresent = reducer(present, action);
+        let newPresent = reducer(present, action);
         if (present === newPresent) return state;
         return state
-            .update('past', past => past.push(newPresent))
+            .update('past', past => past.push(present))
             .set('present', newPresent)
             .update('future', future => {
                 return future.clear();
