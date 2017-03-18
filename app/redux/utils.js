@@ -1,15 +1,15 @@
-/** slice reducer
- * rootHandlers中的节点key要和initialState中的一一对应
- * 一个state上的节点对应一个reducer
- * **/
-//
 const createReducer = (initialState,handlers)=>{
     return (state = initialState, action) => { 
         if(handlers.hasOwnProperty(action.type)) return handlers[action.type](state,action);
         return state ;
     }
 }
-//sliceReducers 仅初始化 的时候执行 一次
+/**
+ * sliceReducers 仅初始化 的时候执行 一次，调用此方法会为rootHandlers上的每个节点调用一次createReducer
+ * @param:
+ * initialState:初始化state
+ * rootHandlers:state上每个节点对应的处理逻辑的集合
+ * */
 export const sliceReducers = (initialState,rootHandlers) =>{
     let reducers = {};
     for (let key in rootHandlers){

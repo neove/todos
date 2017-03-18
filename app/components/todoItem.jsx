@@ -14,10 +14,10 @@ export default class TodoItem extends Component {
     
     render (){
         let {item,index} = this.props;
-        return <div>
-            <input type='checkbox' checked = {item.isDone} onChange = {this.handleChangeStatus}></input>
-            <div>{item.text}</div>
-            <button onClick={this.handleDelete(index)}>Delete</button>
+        return <div className='todo-item'>
+            <input className='todo-check' type='checkbox' checked = {item.isDone} onChange = {this.handleChangeStatus}></input>
+            <div className='todo-value'>{item.text}</div>
+            <button className='todo-del' onClick={this.handleDelete(index)}>Delete</button>
         </div>
     }
 }

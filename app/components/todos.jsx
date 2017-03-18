@@ -5,7 +5,7 @@ import Footer from './footer'
 import {connect} from 'react-redux'
 import{mapActionCreators} from '../redux/utils'
 import actionCreators from '../redux/action'
-
+import './index.css'
 class Todos extends Component{
     constructor(p){
         super(p)
